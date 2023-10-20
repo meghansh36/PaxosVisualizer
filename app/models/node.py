@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from .message import Message
 
 class Node(BaseModel):
 
@@ -12,6 +13,6 @@ class Node(BaseModel):
     current_phase: str
     current_state: str
 
-    message_queue: list
-    delivered_messages: list
+    message_queue: list[Message]
+    delivered_messages: list[Message]
 
