@@ -6,10 +6,10 @@ import json
 
 class Node(BaseModel):
     proposal_number: int
-    proposal_value: int
+    proposal_value: str
     id: int
     promised_proposal: int
-    accepted_value: int
+    accepted_value: str
     prep_response_count: int
     accept_response_count: int
     current_phase: NODE_PHASE
@@ -17,6 +17,19 @@ class Node(BaseModel):
 
     message_queue: list[Message] = []
     delivered_messages: list[Message] = []
+
+    def __str__(self):
+        res = (f"Node: {self.id}\nStatus: {self.current_state}, Phase: {self.current_phase}\n"
+               + f"Promised Proposal: {self.promised_proposal}, " + f"Accepted Value: {self.accepted_value}"
+               + f"\nMessages:\n{self.message_queue}\n")
+        if self.current_phase != NODE_PHASE.NONE:
+            res += ("----------PROPOSER---------\n"
+                    + f"Proposal Number: {self.proposal_number}, "
+                    + f"Proposal Value: {self.proposal_value}\n"
+                    + f"Prepare responses: {self.prep_response_count}, "
+                    + f"Accept responses: {self.accept_response_count}\n")
+        res += "-------------------------------------------------------"
+        return res
 
 
 # Define a custom JSON encoder

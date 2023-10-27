@@ -9,7 +9,10 @@ class Message(BaseModel):
     # message_status: MESSAGE_STATUS
     message_id: int
     proposal_number: int
-    value: int
+    value: str
+
+    def __eq__(self, other):
+        return self.message_id == other.message_id
 
 
 class MessageEncoder(json.JSONEncoder):

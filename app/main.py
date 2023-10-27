@@ -41,6 +41,7 @@ async def perform_action(action_req: ActionRequest):
         print(f'Falling back to default number of nodes = {DEFAULT_NUM_NODES}')
         paxos_runner = PaxosRunner(num_nodes=DEFAULT_NUM_NODES)
     paxos_runner.perform_action(action_req)
+    paxos_runner.print_current_state()  # remove if not debugging
     return paxos_runner.serialize_state()
 
 
@@ -50,6 +51,6 @@ async def perform_prepare(prepare_req: PrepareRequest):
     if paxos_runner is None:
         print(f'Falling back to default number of nodes = {DEFAULT_NUM_NODES}')
         paxos_runner = PaxosRunner(num_nodes=DEFAULT_NUM_NODES)
-    paxos_runner = PaxosRunner(num_nodes=DEFAULT_NUM_NODES)
     paxos_runner.perform_prepare(node_id=prepare_req.node_id, proposal_value=prepare_req.proposal_value)
+    paxos_runner.print_current_state()  # remove if not debugging
     return paxos_runner.serialize_state()

@@ -10,4 +10,4 @@ class ActionRequest(BaseModel):
 
 class PrepareRequest(BaseModel):
     node_id: int
-    proposal_value: int
+    proposal_value: str
