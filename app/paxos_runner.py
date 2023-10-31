@@ -94,7 +94,7 @@ class PaxosRunner:
                 # DROP - removes the message from the Node
                 elif action_request.action_type == ACTION_REQUEST_TYPE.DROP:
                     node = self.delete_message_by_id(node, message_id)
-                    print(f"Dropped message_id {message.id} from Node {node.id}")
+                    print(f"Dropped message_id {message_id} from Node {node.id}")
             else:
                 print(f"message_id {message_id} does not exist on Node {node.id}")
 
