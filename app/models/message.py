@@ -9,7 +9,7 @@ class Message(BaseModel):
     # message_status: MESSAGE_STATUS
     message_id: int
     proposal_number: int
-    value: str
+    value: str | None
 
     def __eq__(self, other):
         return self.message_id == other.message_id

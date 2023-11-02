@@ -6,10 +6,11 @@ import json
 
 class Node(BaseModel):
     proposal_number: int
-    proposal_value: str
+    proposal_value: str | None
     id: int
     promised_proposal: int
-    accepted_value: str
+    accepted_proposal: int
+    accepted_value: str | None
     prep_response_count: int
     accept_response_count: int
     current_phase: NODE_PHASE

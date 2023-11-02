@@ -19,8 +19,8 @@ class PaxosRunner:
 
     @staticmethod
     def init_node(node_id: int):
-        return Node(id=node_id, proposal_number=-1, proposal_value='', promised_proposal=-1, accepted_value='',
-                    prep_response_count=0, accept_response_count=0, current_phase=NODE_PHASE.NONE,
+        return Node(id=node_id, proposal_number=-1, proposal_value=None, promised_proposal=-1, accepted_value=None,
+                    prep_response_count=0, accepted_proposal=-1, accept_response_count=0, current_phase=NODE_PHASE.NONE,
                     current_state=NODE_STATE.ALIVE)
 
     def generate_message_id(self):
@@ -34,19 +34,19 @@ class PaxosRunner:
         self.proposal_number += 1
 
         # Change node state
-        node_state = self.nodes[node_id]
-        node_state.proposal_number = self.proposal_number
-        node_state.proposal_value = proposal_value
-        node_state.current_phase = NODE_PHASE.PREPARE_PHASE
+        node = self.nodes[node_id]
+        node.proposal_number = self.proposal_number
+        node.proposal_value = proposal_value
+        node.current_phase = NODE_PHASE.PREPARE_PHASE
         # Update proposal accept count to 1 (self)
-        node_state.prep_response_count = 1
+        node.prep_response_count = 1
 
         # Send prepare message to all nodes
-        for target_node in range(0, self.num_nodes):
+        for target_node in range(self.num_nodes):
             if target_node != node_id and self.nodes[node_id].current_state == NODE_STATE.ALIVE:
                 prep_req_message = Message(message_type=MESSAGE_TYPE.PREPARE_REQUEST, source_node=node_id,
                                            message_id=self.generate_message_id(),
-                                           proposal_number=node_state.proposal_number, value=proposal_value)
+                                           proposal_number=node.proposal_number, value=proposal_value)
                 self.nodes[target_node].message_queue.append(prep_req_message)
 
     @staticmethod
@@ -83,14 +83,21 @@ class PaxosRunner:
             if message is not None:
                 # DELIVER - executes the action contained in the message on the Node
                 if action_request.action_type == ACTION_REQUEST_TYPE.DELIVER:
+                    
                     if message.message_type == MESSAGE_TYPE.PREPARE_REQUEST:
                         node = self.handle_prepare_request(message, node)
+                    
                     elif message.message_type == MESSAGE_TYPE.PREPARE_RESPONSE:
                         node = self.handle_prepare_response(message, node)
+                    
                     elif message.message_type == MESSAGE_TYPE.ACCEPT_REQUEST:
                         node = self.handle_accept_request(message, node)
+                    
                     elif message.message_type == MESSAGE_TYPE.ACCEPT_RESPONSE:
                         node = self.handle_accept_response(message, node)
+
+                    node = self.delete_message_by_id(node, message.message_id)
+                
                 # DROP - removes the message from the Node
                 elif action_request.action_type == ACTION_REQUEST_TYPE.DROP:
                     node = self.delete_message_by_id(node, message_id)
@@ -101,28 +108,61 @@ class PaxosRunner:
         # Update node state
         self.nodes[action_request.node_id] = node
 
-    def handle_prepare_request(self, message, node):
-        if message.proposal_number > node.promised_proposal:
-            node.promised_proposal = message.proposal_number
+    def handle_prepare_request(self, message: Message, node: Node):
 
+        # Send accepted value when a value has already been accepted.
+        if node.accepted_value != None and node.accepted_proposal != -1:
+            prepare_response_message = Message(message_type=MESSAGE_TYPE.PREPARE_RESPONSE, source_node=node.id,
+                                           message_id=self.generate_message_id(),
+                                           proposal_number=node.accepted_proposal, value=node.accepted_value)
+        else:
+            if message.proposal_number > node.promised_proposal:
+                node.promised_proposal = message.proposal_number
+
+            # Create the prepare response message
+            # Send None as value when accepting prepare request.
+            prepare_response_message = Message(message_type=MESSAGE_TYPE.PREPARE_RESPONSE, source_node=node.id,
+                                            message_id=self.generate_message_id(),
+                                            proposal_number=node.promised_proposal, value=None)
         # Fetch the proposer node
         source_node = self.nodes[message.source_node]
-
-        # Create the prepare response message
-        prepare_response_message = Message(message_type=MESSAGE_TYPE.PREPARE_RESPONSE, source_node=node.id,
-                                           message_id=self.generate_message_id(),
-                                           proposal_number=node.promised_proposal, value=node.proposal_value)
 
         # Send the prepare response to proposer
         source_node.message_queue.append(prepare_response_message)
         self.nodes[message.source_node] = source_node
 
         # Remove message from queue
-        node = self.delete_message_by_id(node, message.message_id)
+        # node = self.delete_message_by_id(node, message.message_id)
         return node
 
-    def handle_prepare_response(self, message, node):
+
+
+
+
+    def handle_prepare_response(self, message: Message, node: Node):
         # TODO - handle based on majority responses
+        if node.current_phase == NODE_PHASE.PREPARE_PHASE:
+            node.prep_response_count += 1
+            
+            # If we receive a previously accepted value from the node
+            if message.proposal_number != node.proposal_number and message.value != None:
+                print(f"Node {node.id} is no longer in proposal phase. Updating accepted value")
+                node.accepted_value = message.value
+                node.accepted_proposal = message.proposal_number
+                node.current_phase = NODE_PHASE.NONE
+            
+            elif node.prep_response_count == self.majority:
+                print(f'Node {node.id} received majority.')
+                node.current_phase = NODE_PHASE.ACCEPT_PHASE
+                # Send accept message to all the other nodes
+                node.accept_response_count = 1
+                for target_node in range(self.num_nodes):
+                    if target_node != node_id and self.nodes[node_id].current_state == NODE_STATE.ALIVE:
+                        accept_req_message = Message(message_type=MESSAGE_TYPE.ACCEPT_REQUEST, source_node=node.id,
+                                                message_id=self.generate_message_id(),
+                                                proposal_number=node.proposal_number, value=node.proposal_value)
+                        self.nodes[target_node].message_queue.append(accept_req_message)
+
         return node
 
     def handle_accept_request(self, message, node):
