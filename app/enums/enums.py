@@ -8,7 +8,7 @@ class MESSAGE_TYPE(Enum):
     PREPARE_REQUEST = 0
     ACCEPT_REQUEST = 1
     PREPARE_RESPONSE = 2
-    ACCEPT_RESPONSE = 2
+    ACCEPT_RESPONSE = 3
 
 
 class MessageTypeEncoder(json.JSONEncoder):
