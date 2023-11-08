@@ -14,8 +14,15 @@ const ACTION_TYPES = {
     REVIVE: "revive"
 }
 
+const NODE_PHASE = {
+    0: "Idle",
+    1: "Prepare",
+    2: "Accept"
+} 
+
 export {
     API_ROUTE,
     MESSAGE_TYPE_TO_LABEL,
-    ACTION_TYPES
+    ACTION_TYPES,
+    NODE_PHASE
 }

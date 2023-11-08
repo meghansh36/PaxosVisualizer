@@ -37,7 +37,8 @@ const sendActionRequest = async (data, setSystemState) => {
     }
 }
 
-const NodeLayout = ({ id, acceptedValue, acceptedProposal, message_queue, proposalNumber, proposalValue, setSystemState }) => {
+const NodeLayout = ({ id, acceptedValue, acceptedProposal, message_queue, 
+    proposalNumber, proposalValue, setSystemState, minProposal, currentPhase }) => {
     
     const [paxosDialogVisibility, setPaxosDialogVisibility] = useState(false)
     const inputRef = useRef(null)
@@ -54,7 +55,14 @@ const NodeLayout = ({ id, acceptedValue, acceptedProposal, message_queue, propos
 
     return (
         <div className="flex flex-col max-w-[14rem] min-w-[6rem m-4 items-center gap-4 min-h-full border-4 border-rose-700 rounded-md p-4">
-        <Node id={id} acceptedValue={acceptedValue} acceptedProposal={acceptedProposal} />
+        <Node id={id} 
+            acceptedValue={acceptedValue} 
+            acceptedProposal={acceptedProposal} 
+            proposalNumber={proposalNumber} 
+            proposalValue={proposalValue} 
+            currentPhase={currentPhase}
+            minProposal={minProposal} 
+        />
         <button onClick={displayInitiatePaxosDialog} className="bg-rose-700 text-white p-1.5 rounded-md text-center">Initiate Paxos</button>
         {paxosDialogVisibility && <div className="flex justify-center gap-1">
             <input type="text" placeholder="Propose Value" className="w-6/12 p-1 rounded-sm" ref={inputRef} />

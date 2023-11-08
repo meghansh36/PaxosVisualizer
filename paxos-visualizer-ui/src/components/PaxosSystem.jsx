@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { API_ROUTE } from '../constants';
 import NodeLayout from './NodeLayout';
 
-const NUM_NODES=  5;
+const NUM_NODES = 5;
 
 const fetchSystemState = async (setSystemState) => {
   try {
@@ -37,6 +37,8 @@ const PaxosSystem = () => {
                     proposalNumber={proposal_number}
                     proposalValue={proposal_value}
                     message_queue={message_queue}
+                    minProposal={promised_proposal}
+                    currentPhase={current_phase}
                     setSystemState={setSystemState}
                   />)}
     </div>
