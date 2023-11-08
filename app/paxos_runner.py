@@ -2,6 +2,9 @@ from .models.node import Node, NodeEncoder
 from .models.message import Message
 from .enums.enums import NODE_PHASE, NODE_STATE, MESSAGE_TYPE, ACTION_REQUEST_TYPE
 from .models.requests import ActionRequest
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel
 import json
 
 
@@ -197,4 +200,5 @@ class PaxosRunner:
             print(self.nodes[node_id])
 
     def serialize_state(self):
-        return json.dumps(self.nodes, cls=NodeEncoder, indent=4)
+        json_compatible_item_data = jsonable_encoder(self.nodes)
+        return JSONResponse(content=json_compatible_item_data)

@@ -149,3 +149,24 @@ nn
 *.todo
 
 .idea/
+
+/paxos-visualizer-ui/node_modules
+/paxos-visualizer-ui/.pnp
+/paxos-visualizer-ui/.pnp.js
+
+# testing
+/paxos-visualizer-ui/coverage
+
+# production
+/paxos-visualizer-ui/build
+
+# misc
+/paxos-visualizer-ui/.DS_Store
+/paxos-visualizer-ui/.env.local
+/paxos-visualizer-ui/.env.development.local
+/paxos-visualizer-ui/.env.test.local
+/paxos-visualizer-ui/.env.production.local
+
+/paxos-visualizer-ui/npm-debug.log*
+/paxos-visualizer-ui/yarn-debug.log*
+/paxos-visualizer-ui/yarn-error.log*

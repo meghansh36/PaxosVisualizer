@@ -1,6 +1,7 @@
 from fastapi import requests
 from fastapi import Request, FastAPI, Header, HTTPException
 from fastapi.responses import HTMLResponse
+from fastapi.middleware.cors import CORSMiddleware
 from .models.message import Message
 from .paxos_runner import PaxosRunner
 from .enums.enums import ACTION_REQUEST_TYPE, DEFAULT_NUM_NODES
@@ -9,6 +10,13 @@ from .models.requests import ActionRequest, PrepareRequest
 app = FastAPI(
     title="Paxos Runner",
     version="v0.0.1",
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['*'],
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 paxos_runner = None
@@ -32,6 +40,7 @@ async def print_curr_state(request: Request):
 async def init_visualizer(num_nodes: int):
     global paxos_runner
     paxos_runner = PaxosRunner(num_nodes=num_nodes)
+    return paxos_runner.serialize_state()
 
 
 @app.post("/action")
