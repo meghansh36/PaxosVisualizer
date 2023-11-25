@@ -14,7 +14,7 @@ class PaxosRunner:
         self.proposal_number = -1
         # Global message ID
         self.message_id = -1
-        self.majority = num_nodes//2 + 1
+        self.majority = num_nodes // 2 + 1
         self.num_nodes = num_nodes
         self.nodes = {}
         for i in range(0, num_nodes):
@@ -86,21 +86,21 @@ class PaxosRunner:
             if message is not None:
                 # DELIVER - executes the action contained in the message on the Node
                 if action_request.action_type == ACTION_REQUEST_TYPE.DELIVER:
-                    
+
                     if message.message_type == MESSAGE_TYPE.PREPARE_REQUEST:
                         node = self.handle_prepare_request(message, node)
-                    
+
                     elif message.message_type == MESSAGE_TYPE.PREPARE_RESPONSE:
                         node = self.handle_prepare_response(message, node)
-                    
+
                     elif message.message_type == MESSAGE_TYPE.ACCEPT_REQUEST:
                         node = self.handle_accept_request(message, node)
-                    
+
                     elif message.message_type == MESSAGE_TYPE.ACCEPT_RESPONSE:
                         node = self.handle_accept_response(message, node)
 
                     node = self.delete_message_by_id(node, message.message_id)
-                
+
                 # DROP - removes the message from the Node
                 elif action_request.action_type == ACTION_REQUEST_TYPE.DROP:
                     node = self.delete_message_by_id(node, message_id)
@@ -114,10 +114,10 @@ class PaxosRunner:
     def handle_prepare_request(self, message: Message, node: Node):
 
         # Send accepted value when a value has already been accepted.
-        if node.accepted_value != None and node.accepted_proposal != -1:
+        if node.accepted_value is not None and node.accepted_proposal != -1:
             prepare_response_message = Message(message_type=MESSAGE_TYPE.PREPARE_RESPONSE, source_node=node.id,
-                                           message_id=self.generate_message_id(),
-                                           proposal_number=node.accepted_proposal, value=node.accepted_value)
+                                               message_id=self.generate_message_id(),
+                                               proposal_number=node.accepted_proposal, value=node.accepted_value)
         else:
             if message.proposal_number > node.promised_proposal:
                 node.promised_proposal = message.proposal_number
@@ -125,8 +125,8 @@ class PaxosRunner:
             # Create the prepare response message
             # Send None as value when accepting prepare request.
             prepare_response_message = Message(message_type=MESSAGE_TYPE.PREPARE_RESPONSE, source_node=node.id,
-                                            message_id=self.generate_message_id(),
-                                            proposal_number=node.promised_proposal, value=None)
+                                               message_id=self.generate_message_id(),
+                                               proposal_number=node.promised_proposal, value=None)
         # Fetch the proposer node
         source_node = self.nodes[message.source_node]
 
@@ -137,19 +137,18 @@ class PaxosRunner:
         # node = self.delete_message_by_id(node, message.message_id)
         return node
 
-
     def handle_prepare_response(self, message: Message, node: Node):
         # TODO - handle based on majority responses
         if node.current_phase == NODE_PHASE.PREPARE_PHASE:
             node.prep_response_count += 1
-            
+
             # If we receive a previously accepted value from the node
-            if message.proposal_number != node.proposal_number and message.value != None:
+            if message.proposal_number != node.proposal_number and message.value is not None:
                 print(f"Node {node.id} is no longer in proposal phase. Updating accepted value")
                 node.accepted_value = message.value
                 node.accepted_proposal = message.proposal_number
                 node.current_phase = NODE_PHASE.NONE
-            
+
             elif node.prep_response_count == self.majority:
                 print(f'Node {node.id} received majority.')
                 node.current_phase = NODE_PHASE.ACCEPT_PHASE
@@ -158,31 +157,30 @@ class PaxosRunner:
                 for target_node in range(self.num_nodes):
                     if target_node != node.id and self.nodes[node.id].current_state == NODE_STATE.ALIVE:
                         accept_req_message = Message(message_type=MESSAGE_TYPE.ACCEPT_REQUEST, source_node=node.id,
-                                                message_id=self.generate_message_id(),
-                                                proposal_number=node.proposal_number, value=node.proposal_value)
+                                                     message_id=self.generate_message_id(),
+                                                     proposal_number=node.proposal_number, value=node.proposal_value)
                         self.nodes[target_node].message_queue.append(accept_req_message)
 
         return node
 
-
     def handle_accept_request(self, message: Message, node: Node):
-        
+
         if message.proposal_number >= node.promised_proposal:
             node.accepted_proposal = node.promised_proposal = message.proposal_number
             node.accepted_value = message.value
-        
+
         accept_res_message = Message(message_type=MESSAGE_TYPE.ACCEPT_RESPONSE, source_node=node.id,
-                                                message_id=self.generate_message_id(),
-                                                proposal_number=node.promised_proposal, value=node.accepted_value)
+                                     message_id=self.generate_message_id(),
+                                     proposal_number=node.promised_proposal, value=node.accepted_value)
 
         self.nodes[message.source_node].message_queue.append(accept_res_message)
 
         return node
 
     def handle_accept_response(self, message: Message, node: Node):
-        
+
         if node.current_phase == NODE_PHASE.ACCEPT_PHASE:
-            node.accept_response_count +=1 
+            node.accept_response_count += 1
 
             if message.proposal_number != node.proposal_number:
                 print(f"Node {node.id} is no longer in accept phase. Updating accepted value")
@@ -191,7 +189,7 @@ class PaxosRunner:
                 print(f'Node {node.id} received majority.')
                 node.accepted_proposal = message.proposal_number
                 node.accepted_value = message.value
-                node.current_phase = NODE_PHASE.NONE 
+                node.current_phase = NODE_PHASE.NONE
 
         return node
 

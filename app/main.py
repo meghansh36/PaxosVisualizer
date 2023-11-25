@@ -16,8 +16,6 @@ app = FastAPI(
     version="v0.0.1",
 )
 
-
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=['*'],
@@ -25,11 +23,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# all_user_states = None
-paxos_runners = None
-paxos_runners_access_times = None
+# Declare user states
+paxos_runners = {}
+paxos_runners_access_times = {}
 
 scheduler = BackgroundScheduler()
+
 
 def on_startup():
     print("Initializing user dictionaries")
@@ -39,15 +38,19 @@ def on_startup():
     paxos_runners_access_times = {}
     scheduler.start()
 
+
 def on_shutdown():
     scheduler.shutdown()
-    
+
+
 app.add_event_handler("startup", on_startup)
 app.add_event_handler("shutdown", on_shutdown)
+
 
 @app.get("/", response_class=HTMLResponse)
 async def serve_home(request: Request):
     return "success"
+
 
 @app.get("/debug")
 async def print_curr_state(user_id: str):
@@ -57,6 +60,7 @@ async def print_curr_state(user_id: str):
         return
     paxos_runners[user_id].print_current_state()
     return paxos_runners[user_id]
+
 
 @app.post("/init")
 async def init_visualizer(init_req: InitHttpRequest):
@@ -76,7 +80,8 @@ async def init_visualizer(init_req: InitHttpRequest):
     paxos_runners[user_id] = PaxosRunner(num_nodes=init_req.num_nodes)
     response = {"user_id": user_id, "state": paxos_runners[user_id].serialize_state().body}
     return response
-    
+
+
 @app.post("/action")
 async def perform_action(action_req: ActionHttpRequest):
     global paxos_runners
@@ -90,6 +95,7 @@ async def perform_action(action_req: ActionHttpRequest):
     paxos_runners[action_req.user_id].print_current_state()  # remove if not debugging
     return paxos_runners[action_req.user_id].serialize_state()
 
+
 @app.post("/prepare")
 async def perform_prepare(prepare_req: PrepareHttpRequest):
     global paxos_runners
@@ -99,11 +105,13 @@ async def perform_prepare(prepare_req: PrepareHttpRequest):
         return JSONResponse(status_code=400, content={"message": "User session has expired. Please Init again."})
 
     paxos_runners_access_times[prepare_req.user_id] = time.time()
-    paxos_runners[prepare_req.user_id].perform_prepare(node_id=prepare_req.node_id, proposal_value=prepare_req.proposal_value)
+    paxos_runners[prepare_req.user_id].perform_prepare(node_id=prepare_req.node_id,
+                                                       proposal_value=prepare_req.proposal_value)
     paxos_runners[prepare_req.user_id].print_current_state()  # remove if not debugging
     return paxos_runners[prepare_req.user_id].serialize_state()
 
-# Function to clean up memory for older sessions 
+
+# Function to clean up memory for older sessions
 def clean_up_older_sessions():
     global paxos_runners
     curr_time = time.time()
@@ -112,6 +120,7 @@ def clean_up_older_sessions():
         if curr_time - paxos_runners_access_times[user_id] > SESSION_EXPIRATION_TIME_IN_SECONDS:
             paxos_runners.pop(user_id, None)
             paxos_runners_access_times.pop(user_id, None)
+
 
 # Add the cron job to the scheduler
 scheduler.add_job(clean_up_older_sessions, trigger=CronTrigger(minute='*/10'))  # Run every 10 minutes
