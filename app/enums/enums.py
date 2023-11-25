@@ -2,7 +2,7 @@ from enum import Enum
 import json
 
 DEFAULT_NUM_NODES = 5
-
+SESSION_EXPIRATION_TIME_IN_SECONDS = 1800
 
 class MESSAGE_TYPE(Enum):
     PREPARE_REQUEST = 0

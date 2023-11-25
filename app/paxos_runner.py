@@ -1,7 +1,7 @@
 from .models.node import Node, NodeEncoder
 from .models.message import Message
 from .enums.enums import NODE_PHASE, NODE_STATE, MESSAGE_TYPE, ACTION_REQUEST_TYPE
-from .models.requests import ActionRequest
+from .models.requests import ActionHttpRequest
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
@@ -61,7 +61,7 @@ class PaxosRunner:
         node.message_queue.pop(del_index)
         return node
 
-    def perform_action(self, action_request: ActionRequest):
+    def perform_action(self, action_request: ActionHttpRequest):
         node = self.nodes[action_request.node_id]
 
         if action_request.action_type == ACTION_REQUEST_TYPE.KILL:

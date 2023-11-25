@@ -2,15 +2,16 @@ from pydantic import BaseModel
 from .message import Message, MessageEncoder
 from ..enums.enums import NODE_PHASE, NODE_STATE, NodePhaseEncoder, NodeStateEncoder
 import json
+from typing import Optional
 
 
 class Node(BaseModel):
     proposal_number: int
-    proposal_value: str | None
+    proposal_value: Optional[str]
     id: int
     promised_proposal: int
     accepted_proposal: int
-    accepted_value: str | None
+    accepted_value: Optional[str]
     prep_response_count: int
     accept_response_count: int
     current_phase: NODE_PHASE
