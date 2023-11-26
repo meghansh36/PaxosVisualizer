@@ -8,6 +8,8 @@ from .enums.enums import ACTION_REQUEST_TYPE, DEFAULT_NUM_NODES, SESSION_EXPIRAT
 from .models.requests import ActionHttpRequest, PrepareHttpRequest, InitHttpRequest
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
 import uuid
 import time
 
@@ -78,8 +80,9 @@ async def init_visualizer(init_req: InitHttpRequest):
     # If client doesn't send, we create and return it
     paxos_runners_access_times[user_id] = time.time()
     paxos_runners[user_id] = PaxosRunner(num_nodes=init_req.num_nodes)
-    response = {"user_id": user_id, "state": paxos_runners[user_id].serialize_state().body}
-    return response
+    response = {"user_id": user_id, "state": paxos_runners[user_id]}
+    json_compatible_response = jsonable_encoder(response)
+    return JSONResponse(content=json_compatible_response)
 
 
 @app.post("/action")
