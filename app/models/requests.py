@@ -16,3 +16,8 @@ class PrepareHttpRequest(BaseModel):
     user_id: str
     node_id: int
     proposal_value: str
+
+class FaultHttpRequest(BaseModel):
+    user_id: str
+    fault_type: str
+    fault_string: str

@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from .models.message import Message
 from .paxos_runner import PaxosRunner
 from .enums.enums import ACTION_REQUEST_TYPE, DEFAULT_NUM_NODES, SESSION_EXPIRATION_TIME_IN_SECONDS
-from .models.requests import ActionHttpRequest, PrepareHttpRequest, InitHttpRequest
+from .models.requests import ActionHttpRequest, PrepareHttpRequest, InitHttpRequest, FaultHttpRequest
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 from fastapi.encoders import jsonable_encoder
@@ -113,6 +113,19 @@ async def perform_prepare(prepare_req: PrepareHttpRequest):
     paxos_runners[prepare_req.user_id].print_current_state()  # remove if not debugging
     return paxos_runners[prepare_req.user_id].serialize_state()
 
+
+@app.post("/fault")
+async def perform_fault_injection(fault_req: FaultHttpRequest):
+    global paxos_runners
+    global paxos_runners_access_times
+
+    if fault_req.user_id not in paxos_runners:
+        return JSONResponse(status_code=400, content={"message": "User session has expired. Please Init again."})
+    
+    paxos_runners_access_times[fault_req.user_id] = time.time()
+    paxos_runners[fault_req.user_id].inject_fault(fault_req.fault_type, fault_req.fault_string)
+
+    return "success"
 
 # Function to clean up memory for older sessions
 def clean_up_older_sessions():

@@ -25,6 +25,17 @@ class PaxosRunner:
         self.ASSIGN_ACCEPT_PROPOSAL = 'node.accepted_proposal = message.proposal_number'
         self.ASSIGN_MINPROPOSAL = 'node.promised_proposal = message.proposal_number'
     
+    def inject_fault(self, fault_type: str, fault_string: str):
+        if fault_type == 'PREPARE_CHECK_STRING':
+            self.PREPARE_CHECK_STRING = fault_string
+        elif fault_type == 'ACCEPT_CHECK_STRING':
+            self.ACCEPT_CHECK_STRING = fault_string
+        elif fault_type == 'ASSIGN_ACCEPT_PROPOSAL':
+            self.ASSIGN_ACCEPT_PROPOSAL = ""
+        elif fault_type == "ASSIGN_MINPROPOSAL":
+            self.ASSIGN_MINPROPOSAL = ""
+        elif fault_type == 'MAJORITY':
+            self.majority = int(fault_string)
     
     @staticmethod
     def init_node(node_id: int):
@@ -45,6 +56,7 @@ class PaxosRunner:
         # Change node state
         node = self.nodes[node_id]
         node.proposal_number = self.proposal_number
+        node.promised_proposal = self.proposal_number
         node.proposal_value = proposal_value
         node.current_phase = NODE_PHASE.PREPARE_PHASE
         # Update proposal accept count to 1 (self)
