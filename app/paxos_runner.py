@@ -20,6 +20,12 @@ class PaxosRunner:
         for i in range(0, num_nodes):
             self.nodes[i] = self.init_node(i)
 
+        self.PREPARE_CHECK_STRING = 'message.proposal_number > node.promised_proposal'
+        self.ACCEPT_CHECK_STRING = 'message.proposal_number >= node.promised_proposal'
+        self.ASSIGN_ACCEPT_PROPOSAL = 'node.accepted_proposal = message.proposal_number'
+        self.ASSIGN_MINPROPOSAL = 'node.promised_proposal = message.proposal_number'
+    
+    
     @staticmethod
     def init_node(node_id: int):
         return Node(id=node_id, proposal_number=-1, proposal_value=None, promised_proposal=-1, accepted_value=None,
@@ -119,7 +125,8 @@ class PaxosRunner:
                                                message_id=self.generate_message_id(),
                                                proposal_number=node.accepted_proposal, value=node.accepted_value)
         else:
-            if message.proposal_number > node.promised_proposal:
+            # if message.proposal_number > node.promised_proposal:
+            if eval(self.PREPARE_CHECK_STRING):
                 node.promised_proposal = message.proposal_number
 
             # Create the prepare response message
@@ -165,8 +172,9 @@ class PaxosRunner:
 
     def handle_accept_request(self, message: Message, node: Node):
 
-        if message.proposal_number >= node.promised_proposal:
-            node.accepted_proposal = node.promised_proposal = message.proposal_number
+        if eval(self.ACCEPT_CHECK_STRING):
+            exec(self.ASSIGN_ACCEPT_PROPOSAL)
+            exec(self.ASSIGN_MINPROPOSAL)
             node.accepted_value = message.value
 
         accept_res_message = Message(message_type=MESSAGE_TYPE.ACCEPT_RESPONSE, source_node=node.id,
