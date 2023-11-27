@@ -20,9 +20,15 @@ const NODE_PHASE = {
     2: "Accept"
 } 
 
+const NUM_NODES = 5;
+
+const USER_ID_SESSION_KEY = "userId";
+
 export {
     API_ROUTE,
     MESSAGE_TYPE_TO_LABEL,
     ACTION_TYPES,
-    NODE_PHASE
+    NODE_PHASE,
+    NUM_NODES,
+    USER_ID_SESSION_KEY
 }

@@ -19,13 +19,14 @@
 }
 
 .App-header {
-  padding: 2rem;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(14px + 2vmin);
+  font-size: calc(14px + 1vmin);
   color: white;
+  font-weight: 600;
 }
 
 .App-link {
