@@ -23,7 +23,7 @@ const sendActionRequest = async (data, setSystemState, actionHistory, actionPosi
 }
 
 const NodeLayout = ({ id, acceptedValue, acceptedProposal, message_queue, 
-    proposalNumber, proposalValue, setSystemState, minProposal, currentPhase, actionHistory, actionPosition }) => {
+    proposalNumber, proposalValue, setSystemState, minProposal, currentPhase, actionHistory, actionPosition, current_state }) => {
     
     const [paxosDialogVisibility, setPaxosDialogVisibility] = useState(false)
     const inputRef = useRef(null)
@@ -36,10 +36,18 @@ const NodeLayout = ({ id, acceptedValue, acceptedProposal, message_queue,
     }
     const cancelInitiatePaxos = () => setPaxosDialogVisibility(false)
 
+    const handleKillNode = () => {
+        sendActionRequest({node_id: id, message_id: 0, action_type: 'kill'}, setSystemState, actionHistory, actionPosition)
+    }
+
+    const handleReviveNode = () => {
+        sendActionRequest({node_id: id, message_id: 0, action_type: 'revive'}, setSystemState, actionHistory, actionPosition)
+    }
+
     const executeMessageAction = (messagePayload) => sendActionRequest({ node_id: id, ...messagePayload }, setSystemState, actionHistory, actionPosition) 
 
     return (
-        <div className="flex flex-col max-w-[14rem] min-w-[6rem m-4 items-center gap-4 min-h-full border-4 border-rose-700 rounded-md p-4">
+        <div className={`flex flex-col max-w-[14rem] min-w-[6rem m-4 items-center gap-4 min-h-full border-4 border-rose-700 rounded-md p-4 ${current_state == 0 ? "opacity-30" : ""}`}>
         <Node id={id} 
             acceptedValue={acceptedValue} 
             acceptedProposal={acceptedProposal} 
@@ -54,6 +62,11 @@ const NodeLayout = ({ id, acceptedValue, acceptedProposal, message_queue,
             <button onClick={handleInitiatePaxos}><img src={Tick} alt="submit-btn" className="w-6" /></button>
             <button onClick={cancelInitiatePaxos}><img src={Cancel} alt="cancel-btn" className="w-6" /></button>
         </div>}
+
+        <div>
+            <button onClick={handleKillNode}  className="mr-1 bg-red-700 text-white p-1.5 rounded-md text-center">Kill Node</button>
+            <button onClick={handleReviveNode} className="bg-green-700 text-white p-1.5 rounded-md text-center">Revive Node</button>
+        </div>
         <div className="text-lg italic font-semibold text-stone-200">Message Queue</div>
         {message_queue.map(({ message_id, message_type, proposal_number, source_node, value }) => 
                 <Message 

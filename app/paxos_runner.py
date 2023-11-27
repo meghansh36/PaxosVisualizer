@@ -64,7 +64,8 @@ class PaxosRunner:
 
         # Send prepare message to all nodes
         for target_node in range(self.num_nodes):
-            if target_node != node_id and self.nodes[node_id].current_state == NODE_STATE.ALIVE:
+            
+            if target_node != node_id and self.nodes[target_node].current_state == NODE_STATE.ALIVE:
                 prep_req_message = Message(message_type=MESSAGE_TYPE.PREPARE_REQUEST, source_node=node_id,
                                            message_id=self.generate_message_id(),
                                            proposal_number=node.proposal_number, value=proposal_value)
@@ -85,6 +86,7 @@ class PaxosRunner:
         if action_request.action_type == ACTION_REQUEST_TYPE.KILL:
             # TODO: Kill the node - do we drop all of its messages in message_queue?
             node.current_state = NODE_STATE.DEAD
+            node.message_queue = []
 
         elif action_request.action_type == ACTION_REQUEST_TYPE.REVIVE:
             # TODO: Revive the node, what else to do here?
@@ -174,7 +176,7 @@ class PaxosRunner:
                 # Send accept message to all the other nodes
                 node.accept_response_count = 1
                 for target_node in range(self.num_nodes):
-                    if target_node != node.id and self.nodes[node.id].current_state == NODE_STATE.ALIVE:
+                    if target_node != node.id and self.nodes[target_node].current_state == NODE_STATE.ALIVE:
                         accept_req_message = Message(message_type=MESSAGE_TYPE.ACCEPT_REQUEST, source_node=node.id,
                                                      message_id=self.generate_message_id(),
                                                      proposal_number=node.proposal_number, value=node.proposal_value)

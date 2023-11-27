@@ -88,6 +88,7 @@ const PaxosSystem = ({ actionHistory, actionPosition }) => {
                       actionHistory={actionHistory}
                       actionPosition={actionPosition}
                       setSystemState={setSystemState}
+                      current_state={current_state}
                     />)}
       </div>
     </div>
