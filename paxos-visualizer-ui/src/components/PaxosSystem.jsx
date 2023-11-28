@@ -1,9 +1,10 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import NodeLayout from './NodeLayout';
+import FaultInjection from './FaultInjection';
 import UndoIcon from '../assets/undo.png';
 import RedoIcon from '../assets/redo.png';
-import { resetSystemState, prepareRequestAPICall, actionRequestAPICall } from '../api';
+import { resetSystemState, prepareRequestAPICall, actionRequestAPICall, sendFaultInjectionRequest } from '../api';
 
 const fetchSystemState = async (setSystemState, actionHistory, actionPosition) => {
   const { systemState, error } = await resetSystemState()
@@ -13,6 +14,16 @@ const fetchSystemState = async (setSystemState, actionHistory, actionPosition) =
     actionPosition.current = -1
   }
 } 
+
+const executeFaultInjection = async (setSystemState, actionHistory, actionPosition, data) => {
+  const { systemState, error } = await resetSystemState()
+  if (error === null) {
+    setSystemState(systemState)
+    actionHistory.current = []
+    actionPosition.current = -1
+    sendFaultInjectionRequest(data)
+  }
+}
 
 const executeUndoAction = async (setSystemState, actionHistory, actionPosition) => {
     const replayActionPromises = [resetSystemState()];
@@ -55,6 +66,14 @@ const PaxosSystem = ({ actionHistory, actionPosition }) => {
 
   const handleUndoClick = () => executeUndoAction(setSystemState, actionHistory, actionPosition)
   const handleRedoClick = () => executeRedoAction(setSystemState, actionHistory, actionPosition)
+
+  const onInjectFaults = (faultType, faultString, eventStatus) => {
+    if (eventStatus) {
+      executeFaultInjection(setSystemState, actionHistory, actionPosition, { fault_type: faultType, fault_string: faultString })   
+    } else {
+      fetchSystemState(setSystemState, actionHistory, actionPosition)
+    }
+  }
   
   useEffect(() => {
     fetchSystemState(setSystemState, actionHistory, actionPosition)
@@ -62,6 +81,7 @@ const PaxosSystem = ({ actionHistory, actionPosition }) => {
 
   return (
     <div className="flex flex-col h-full">
+      <FaultInjection onInjectFaults={onInjectFaults} />
       <div className='text-center w-full text-stone-200 font-semibold mb-2'>Replay Actions</div>
       <div className="flex w-full justify-center gap-4 text-stone-200">
         <button className={`flex flex-row gap-2 items-center p-1.5 rounded-md ${undoBtnClassName}`} disabled={isUndoDisabled} onClick={handleUndoClick}>

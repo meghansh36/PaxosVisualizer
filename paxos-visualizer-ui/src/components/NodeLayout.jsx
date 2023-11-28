@@ -47,7 +47,8 @@ const NodeLayout = ({ id, acceptedValue, acceptedProposal, message_queue,
     const executeMessageAction = (messagePayload) => sendActionRequest({ node_id: id, ...messagePayload }, setSystemState, actionHistory, actionPosition) 
 
     return (
-        <div className={`flex flex-col max-w-[14rem] min-w-[6rem m-4 items-center gap-4 min-h-full border-4 border-rose-700 rounded-md p-4 ${current_state == 0 ? "opacity-30" : ""}`}>
+        <div className="flex relative flex-col max-w-[14rem] min-w-[6rem m-4 items-center gap-4 min-h-[50rem] border-4 border-rose-700 rounded-md p-4">
+        {!current_state ? <div className='absolute h-full w-full top-0 left-0 bg-black/40'></div> : ''}
         <Node id={id} 
             acceptedValue={acceptedValue} 
             acceptedProposal={acceptedProposal} 
@@ -65,7 +66,7 @@ const NodeLayout = ({ id, acceptedValue, acceptedProposal, message_queue,
 
         <div>
             <button onClick={handleKillNode}  className="mr-1 bg-red-700 text-white p-1.5 rounded-md text-center">Kill Node</button>
-            <button onClick={handleReviveNode} className="bg-green-700 text-white p-1.5 rounded-md text-center">Revive Node</button>
+            <button onClick={handleReviveNode} className="bg-green-700 text-white p-1.5 rounded-md text-center z-10 relative">Revive Node</button>
         </div>
         <div className="text-lg italic font-semibold text-stone-200">Message Queue</div>
         {message_queue.map(({ message_id, message_type, proposal_number, source_node, value }) => 

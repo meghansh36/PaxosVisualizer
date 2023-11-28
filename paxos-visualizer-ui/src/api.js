@@ -65,8 +65,27 @@ const actionRequestAPICall = async (data) => {
     }
 }
 
+const sendFaultInjectionRequest = async (data) => {
+    try {
+        const res = await fetch(`${API_ROUTE}/fault`, {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+            },
+            body: JSON.stringify(addUserIdToBody(data))
+        })
+        const responseMsg = await res.json()
+        console.log(responseMsg)
+        return { response: responseMsg, error: null }
+    } catch (error) {
+        console.log("Could not inject Fault, error: ", error)
+        return { error }
+    }
+}
+
 export {
     resetSystemState,
     prepareRequestAPICall,
-    actionRequestAPICall
+    actionRequestAPICall,
+    sendFaultInjectionRequest
 }
