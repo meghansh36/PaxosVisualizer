@@ -26,15 +26,14 @@ const executeFaultInjection = async (setSystemState, actionHistory, actionPositi
 }
 
 const executeUndoAction = async (setSystemState, actionHistory, actionPosition) => {
-    const replayActionPromises = [resetSystemState()];
+    const returnedSystemStates = [await resetSystemState()];
     for(let i = 0; i < actionPosition.current; i++) {
       const currentAction = actionHistory.current[i]
-      if(currentAction.proposal_value) replayActionPromises.push(prepareRequestAPICall(currentAction))
-      else replayActionPromises.push(actionRequestAPICall(currentAction))
+      if(currentAction.proposal_value) returnedSystemStates.push(await prepareRequestAPICall(currentAction))
+      else returnedSystemStates.push(await actionRequestAPICall(currentAction))
     }
 
     try {
-      const returnedSystemStates = await Promise.all(replayActionPromises)
       setSystemState(returnedSystemStates[returnedSystemStates.length - 1].systemState)
       actionPosition.current = actionPosition.current - 1
     } catch (error) {
@@ -64,8 +63,8 @@ const PaxosSystem = ({ actionHistory, actionPosition }) => {
   const undoBtnClassName = isUndoDisabled ? 'bg-sky-800/50': 'bg-sky-800 font-semibold';
   const redoBtnClassName = isRedoDisabled ? 'bg-sky-800/50': 'bg-sky-800 font-semibold';
 
-  const handleUndoClick = () => executeUndoAction(setSystemState, actionHistory, actionPosition)
-  const handleRedoClick = () => executeRedoAction(setSystemState, actionHistory, actionPosition)
+  const handleUndoClick = async () => await executeUndoAction(setSystemState, actionHistory, actionPosition)
+  const handleRedoClick = async () => await executeRedoAction(setSystemState, actionHistory, actionPosition)
 
   const onInjectFaults = (faultType, faultString, eventStatus) => {
     if (eventStatus) {
