@@ -118,7 +118,7 @@ const PaxosSystem = ({ actionHistory, actionPosition }) => {
       )}
       {activeMode === 'faultInjection' && <FaultInjection onInjectFaults={onInjectFaults} />}
 
-      {!isScenarioMode && (
+      {activeMode === 'learner' && (
         <div>
           <div className='text-center w-full text-stone-200 font-semibold mb-2 mt-8'>Replay Actions</div>
           <div className="flex w-full justify-center gap-4 text-stone-200">
