@@ -59,7 +59,7 @@ const PredefinedScenarios = ({ setSystemState }) => {
       }
     };
 
-    const handlePrevious = () => {
+    const handlePrevious = async () => {
       const scenario = activeScenario;
       if (scenario && currentMessageIndex >= 0) {
         resetState(setSystemState)
@@ -74,9 +74,9 @@ const PredefinedScenarios = ({ setSystemState }) => {
           }
 
           if(message.route === PREPARE_REQ)
-            sendPrepareRequest({ node_id: message.input.node_id, proposal_value: message.input.proposal_value }, setSystemState, flag)
+            await sendPrepareRequest({ node_id: message.input.node_id, proposal_value: message.input.proposal_value }, setSystemState, flag)
           else if (message.route === ACTION_REQ)
-            sendActionRequest({node_id: message.input.node_id, message_id: message.input.message_id, action_type: message.input.action_type}, setSystemState, flag)
+            await sendActionRequest({node_id: message.input.node_id, message_id: message.input.message_id, action_type: message.input.action_type}, setSystemState, flag)
 
         }
         setCurrentMessageIndex(currentMessageIndex-1);
