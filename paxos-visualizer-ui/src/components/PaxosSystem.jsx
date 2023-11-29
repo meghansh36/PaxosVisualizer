@@ -2,6 +2,7 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import NodeLayout from './NodeLayout';
 import FaultInjection from './FaultInjection';
+import PredefinedScenarios from './PredefinedScenarios';
 import UndoIcon from '../assets/undo.png';
 import RedoIcon from '../assets/redo.png';
 import { resetSystemState, prepareRequestAPICall, actionRequestAPICall, sendFaultInjectionRequest } from '../api';
@@ -57,15 +58,39 @@ const executeRedoAction = async (setSystemState, actionHistory, actionPosition) 
 const PaxosSystem = ({ actionHistory, actionPosition }) => {
 
   const [systemState, setSystemState] = useState([]);
-  
+  const [activeMode, setActiveMode] = useState("learner"); // 'learner', 'automated', or 'faultInjection'
+
   const isUndoDisabled = actionPosition.current === -1;
   const isRedoDisabled = actionPosition.current === actionHistory.current.length - 1;
-
+  const isScenarioMode = activeMode === 'scenarios';
   const undoBtnClassName = isUndoDisabled ? 'bg-sky-800/50': 'bg-sky-800 font-semibold';
   const redoBtnClassName = isRedoDisabled ? 'bg-sky-800/50': 'bg-sky-800 font-semibold';
 
   const handleUndoClick = () => executeUndoAction(setSystemState, actionHistory, actionPosition)
   const handleRedoClick = () => executeRedoAction(setSystemState, actionHistory, actionPosition)
+
+  const showLearnerMode = () => {
+    if(activeMode !== 'learner'){
+      setActiveMode('learner');
+      fetchSystemState(setSystemState, actionHistory, actionPosition)
+    }
+  }
+
+
+  const showPredefinedScenarios = () => {
+    if(activeMode !== 'scenarios'){
+      setActiveMode('scenarios');
+      fetchSystemState(setSystemState, actionHistory, actionPosition)
+
+    }
+  }
+  const showFaultInjection = () => {
+    if(activeMode !== 'faultInjection'){
+      setActiveMode('faultInjection');
+      fetchSystemState(setSystemState, actionHistory, actionPosition)
+
+    }
+  }
 
   const onInjectFaults = (faultType, faultString, eventStatus) => {
     if (eventStatus) {
@@ -81,16 +106,31 @@ const PaxosSystem = ({ actionHistory, actionPosition }) => {
 
   return (
     <div className="flex flex-col h-full">
-      <FaultInjection onInjectFaults={onInjectFaults} />
-      <div className='text-center w-full text-stone-200 font-semibold mb-2'>Replay Actions</div>
       <div className="flex w-full justify-center gap-4 text-stone-200">
-        <button className={`flex flex-row gap-2 items-center p-1.5 rounded-md ${undoBtnClassName}`} disabled={isUndoDisabled} onClick={handleUndoClick}>
-          Undo <img src={UndoIcon} alt="undo-icon" className="w-6" />
-        </button>
-        <button className={`flex flex-row gap-2 items-center p-1.5 rounded-md ${redoBtnClassName}`} disabled={isRedoDisabled} onClick={handleRedoClick}>
-          Redo <img src={RedoIcon} alt="redo-icon" className="w-6" />
-        </button>
+        <button onClick={showLearnerMode}  className={`mr-1 bg-green-700 text-white p-1.5 rounded-md text-center ${activeMode === 'learner' ? 'button-active' : ''}`}>Learner Mode</button>
+        <button onClick={showPredefinedScenarios}  className={`mr-1 bg-yellow-700 text-white p-1.5 rounded-md text-center ${activeMode === 'scenarios' ? 'button-active' : ''}`}>Predefined Scenarios</button>
+        <button onClick={showFaultInjection}  className={`mr-1 bg-red-500 text-white p-1.5 rounded-md text-center ${activeMode === 'faultInjection' ? 'button-active' : ''}`}>Fault Injection Mode</button>
       </div>
+      {activeMode === 'scenarios' && (
+        <div>
+          <PredefinedScenarios setSystemState={setSystemState}/>
+        </div>
+      )}
+      {activeMode === 'faultInjection' && <FaultInjection onInjectFaults={onInjectFaults} />}
+
+      {!isScenarioMode && (
+        <div>
+          <div className='text-center w-full text-stone-200 font-semibold mb-2 mt-8'>Replay Actions</div>
+          <div className="flex w-full justify-center gap-4 text-stone-200">
+            <button className={`flex flex-row gap-2 items-center p-1.5 rounded-md ${undoBtnClassName}`} disabled={isUndoDisabled} onClick={handleUndoClick}>
+              Undo <img src={UndoIcon} alt="undo-icon" className="w-6" />
+            </button>
+            <button className={`flex flex-row gap-2 items-center p-1.5 rounded-md ${redoBtnClassName}`} disabled={isRedoDisabled} onClick={handleRedoClick}>
+              Redo <img src={RedoIcon} alt="redo-icon" className="w-6" />
+            </button>
+          </div>
+        </div>
+      )}
       <div className="grow grid grid-flow-col justify-center flex-auto pb-4">
         {systemState.map(({ 
           accept_response_count, accepted_proposal, accepted_value, current_phase, current_state, 
@@ -109,6 +149,7 @@ const PaxosSystem = ({ actionHistory, actionPosition }) => {
                       actionPosition={actionPosition}
                       setSystemState={setSystemState}
                       current_state={current_state}
+                      isScenarioMode={isScenarioMode}
                     />)}
       </div>
     </div>
