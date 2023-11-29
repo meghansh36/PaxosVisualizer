@@ -3,42 +3,27 @@ import Node from './Node';
 import Message from './Message';
 import Tick from "../assets/correct.png";
 import Cancel from "../assets/x-button.png";
-import { API_ROUTE } from '../constants';
+import { prepareRequestAPICall, actionRequestAPICall } from '../api';
 
-const sendPrepareRequest = async (data, setSystemState) => {
-    try {
-        const res = await fetch(`${API_ROUTE}/prepare`, {
-            method: "POST",
-            headers: {
-            "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data)
-        })
-        const systemState = await res.json()
-        setSystemState(Object.values(systemState))
-    } catch (error) {
-        console.log("Could not send Prepare Request, error: ", error)
-    }
+const registerStateInApp = (systemState, data, setSystemState, actionHistory, actionPosition) => {
+    setSystemState(systemState)
+    if (actionPosition.current !== actionHistory.current.length - 1) actionHistory.current = actionHistory.current.slice(0, actionPosition.current+1)
+    actionHistory.current.push(data)
+    actionPosition.current = actionHistory.current.length - 1
 }
 
-const sendActionRequest = async (data, setSystemState) => {
-    try {
-        const res = await fetch(`${API_ROUTE}/action`, {
-            method: "POST",
-            headers: {
-            "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data)
-        })
-        const systemState = await res.json()
-        setSystemState(Object.values(systemState))
-    } catch (error) {
-        console.log("Could not send Action Request, error: ", error)
-    }
+const sendPrepareRequest = async (data, setSystemState, actionHistory, actionPosition) => {
+    const { systemState, error } = await prepareRequestAPICall(data);
+    if (error === null) registerStateInApp(systemState, data, setSystemState, actionHistory, actionPosition)
+}
+
+const sendActionRequest = async (data, setSystemState, actionHistory, actionPosition) => {
+    const { systemState, error } = await actionRequestAPICall(data);
+    if (error === null) registerStateInApp(systemState, data, setSystemState, actionHistory, actionPosition)
 }
 
 const NodeLayout = ({ id, acceptedValue, acceptedProposal, message_queue, 
-    proposalNumber, proposalValue, setSystemState, minProposal, currentPhase }) => {
+    proposalNumber, proposalValue, setSystemState, minProposal, currentPhase, actionHistory, actionPosition, current_state, isScenarioMode }) => {
     
     const [paxosDialogVisibility, setPaxosDialogVisibility] = useState(false)
     const inputRef = useRef(null)
@@ -46,15 +31,24 @@ const NodeLayout = ({ id, acceptedValue, acceptedProposal, message_queue,
     const displayInitiatePaxosDialog = () => setPaxosDialogVisibility(true)
     const handleInitiatePaxos = () => {
         const proposingValue = inputRef.current.value
-        sendPrepareRequest({ node_id: id, proposal_value: proposingValue }, setSystemState)
+        sendPrepareRequest({ node_id: id, proposal_value: proposingValue }, setSystemState, actionHistory, actionPosition)
         setPaxosDialogVisibility(false)
     }
     const cancelInitiatePaxos = () => setPaxosDialogVisibility(false)
 
-    const executeMessageAction = (messagePayload) => sendActionRequest({ node_id: id, ...messagePayload }, setSystemState) 
+    const handleKillNode = () => {
+        sendActionRequest({node_id: id, message_id: 0, action_type: 'kill'}, setSystemState, actionHistory, actionPosition)
+    }
+
+    const handleReviveNode = () => {
+        sendActionRequest({node_id: id, message_id: 0, action_type: 'revive'}, setSystemState, actionHistory, actionPosition)
+    }
+
+    const executeMessageAction = (messagePayload) => sendActionRequest({ node_id: id, ...messagePayload }, setSystemState, actionHistory, actionPosition) 
 
     return (
-        <div className="flex flex-col max-w-[14rem] min-w-[6rem m-4 items-center gap-4 min-h-full border-4 border-rose-700 rounded-md p-4">
+        <div className="flex relative flex-col max-w-[14rem] min-w-[6rem m-4 items-center gap-4 min-h-[50rem] border-4 border-rose-700 rounded-md p-4">
+        {!current_state ? <div className='absolute h-full w-full top-0 left-0 bg-black/40'></div> : ''}
         <Node id={id} 
             acceptedValue={acceptedValue} 
             acceptedProposal={acceptedProposal} 
@@ -63,12 +57,20 @@ const NodeLayout = ({ id, acceptedValue, acceptedProposal, message_queue,
             currentPhase={currentPhase}
             minProposal={minProposal} 
         />
-        <button onClick={displayInitiatePaxosDialog} className="bg-rose-700 text-white p-1.5 rounded-md text-center">Initiate Paxos</button>
-        {paxosDialogVisibility && <div className="flex justify-center gap-1">
-            <input type="text" placeholder="Propose Value" className="w-6/12 p-1 rounded-sm" ref={inputRef} />
-            <button onClick={handleInitiatePaxos}><img src={Tick} alt="submit" className="w-6" /></button>
-            <button onClick={cancelInitiatePaxos}><img src={Cancel} alt="submit" className="w-6" /></button>
-        </div>}
+        {!isScenarioMode && (
+        <div>
+            <button onClick={displayInitiatePaxosDialog} className="bg-rose-700 text-white p-1.5 rounded-md text-center mb-4">Initiate Paxos</button>
+            {paxosDialogVisibility && <div className="flex justify-center gap-1">
+                <input type="text" placeholder="Propose Value" className="w-6/12 p-1 rounded-sm" ref={inputRef} />
+                <button onClick={handleInitiatePaxos}><img src={Tick} alt="submit-btn" className="w-6" /></button>
+                <button onClick={cancelInitiatePaxos}><img src={Cancel} alt="cancel-btn" className="w-6" /></button>
+            </div>}
+
+            <div>
+                <button onClick={handleKillNode}  className="mr-1 bg-red-700 text-white p-1.5 rounded-md text-center">Kill Node</button>
+                <button onClick={handleReviveNode} className="bg-green-700 text-white p-1.5 rounded-md text-center z-10 relative">Revive Node</button>
+            </div>
+        </div>)}
         <div className="text-lg italic font-semibold text-stone-200">Message Queue</div>
         {message_queue.map(({ message_id, message_type, proposal_number, source_node, value }) => 
                 <Message 
@@ -79,6 +81,7 @@ const NodeLayout = ({ id, acceptedValue, acceptedProposal, message_queue,
                     sourceNode={source_node}
                     value={value}
                     onMessageActionClick={executeMessageAction}
+                    isScenarioMode={isScenarioMode}
                 />)}
         </div>
     );

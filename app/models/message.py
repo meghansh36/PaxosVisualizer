@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from ..enums.enums import MESSAGE_TYPE, MessageTypeEncoder
 import json
+from typing import Optional
 
 
 class Message(BaseModel):
@@ -9,7 +10,7 @@ class Message(BaseModel):
     # message_status: MESSAGE_STATUS
     message_id: int
     proposal_number: int
-    value: str | None
+    value: Optional[str]
 
     def __eq__(self, other):
         return self.message_id == other.message_id
