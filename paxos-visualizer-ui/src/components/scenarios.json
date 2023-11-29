@@ -1,493 +1,430 @@
 [
-  {
-  "id": "s1",
-  "name": "Scenario 1",
-  "description": "Learn a value",
-  "messages": [
+    {
+    "id": "s1",
+    "name": "Learning chosen value",
+    "description": "A node is cut-off and does not receive the proposed value initially, and then proposes its own value after a value has already been chosen, learns it",
+    "messages": [
       {
-        "route": "/prepare",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 0,
-            "proposal_value": "10"
-        },
-        "message": "first"
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 1,
-            "message_id": 0,
-            "action_type": "deliver"
-        },
-        "message": "second"
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 2,
-            "message_id": 1,
-            "action_type": "deliver"
-        },
-        "message": "third"
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 3,
-            "message_id": 2,
-            "action_type": "deliver"
-        },
-        "message": "4"
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 4,
-            "message_id": 3,
-            "action_type": "drop"
-        },
-        "message": "5"
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 0,
-            "message_id": 4,
-            "action_type": "deliver"
-        },
-        "message": "6"
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 0,
-            "message_id": 5,
-            "action_type": "deliver"
-        },
-        "message": "7"
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 0,
-            "message_id": 6,
-            "action_type": "deliver"
-        },
-        "message": "8"
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 4,
-            "message_id": 10,
-            "action_type": "drop"
-        },
-        "message": "9"
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 1,
-            "message_id": 7,
-            "action_type": "deliver"
-        },
-        "message": "10"
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 2,
-            "message_id": 8,
-            "action_type": "deliver"
-        },
-        "message": "11"
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 3,
-            "message_id": 9,
-            "action_type": "deliver"
-        },
-        "message": "12"
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 0,
-            "message_id": 11,
-            "action_type": "deliver"
-        },
-        "message": ""
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 0,
-            "message_id": 12,
-            "action_type": "deliver"
-        },
-        "message": ""
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 0,
-            "message_id": 13,
-            "action_type": "deliver"
-        },
-        "message": ""
-    },
-    {
-        "route": "/prepare",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 4,
-            "proposal_value": "15"
-        },
-        "message": ""
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 3,
-            "message_id": 17,
-            "action_type": "deliver"
-        },
-        "message": ""
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 2,
-            "message_id": 16,
-            "action_type": "deliver"
-        },
-        "message": ""
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 1,
-            "message_id": 15,
-            "action_type": "deliver"
-        },
-        "message": ""
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 0,
-            "message_id": 14,
-            "action_type": "deliver"
-        },
-        "message": ""
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 4,
-            "message_id": 18,
-            "action_type": "deliver"
-        },
-        "message": ""
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 4,
-            "message_id": 19,
-            "action_type": "deliver"
-        },
-        "message": ""
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 4,
-            "message_id": 20,
-            "action_type": "deliver"
-        },
-        "message": ""
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 4,
-            "message_id": 21,
-            "action_type": "deliver"
-        },
-        "message": ""
-    }
+          "route": "/prepare",
+          "input": {
+              "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+              "node_id": 0,
+              "proposal_value": "10"
+          },
+          "message": "Node 0 proposes value 10"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+              "node_id": 1,
+              "message_id": 0,
+              "action_type": "deliver"
+          },
+          "message": "Node 1 : accepts Prepare Request by Node 0"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+              "node_id": 2,
+              "message_id": 1,
+              "action_type": "deliver"
+          },
+          "message": "Node 2 : accepts Prepare Request by Node 0"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+              "node_id": 3,
+              "message_id": 2,
+              "action_type": "deliver"
+          },
+          "message": "Node 3 : accepts Prepare Request by Node 0"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+              "node_id": 4,
+              "message_id": 3,
+              "action_type": "drop"
+          },
+          "message": "Node 4 : drops Prepare Request by Node 0"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+              "node_id": 0,
+              "message_id": 4,
+              "action_type": "deliver"
+          },
+          "message": "Node 0 : accepts Prepare Response"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+              "node_id": 0,
+              "message_id": 5,
+              "action_type": "deliver"
+          },
+          "message": "Node 0 : accepts Prepare Response"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+              "node_id": 0,
+              "message_id": 6,
+              "action_type": "deliver"
+          },
+          "message": "Node 0 : receives majority at this point & sends the Accept Requests"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+              "node_id": 4,
+              "message_id": 10,
+              "action_type": "drop"
+          },
+          "message": "Node 4 : drops the Accept Request"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+              "node_id": 1,
+              "message_id": 7,
+              "action_type": "deliver"
+          },
+          "message": "Node 1 : accepts the Accept Request"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+              "node_id": 2,
+              "message_id": 8,
+              "action_type": "deliver"
+          },
+          "message": "Node 2 : accepts the Accept Request"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+              "node_id": 3,
+              "message_id": 9,
+              "action_type": "deliver"
+          },
+          "message": "Node 3 : accepts the Accept Request"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+              "node_id": 0,
+              "message_id": 11,
+              "action_type": "deliver"
+          },
+          "message": "Node 0 : accepts the Accept Response"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+              "node_id": 0,
+              "message_id": 12,
+              "action_type": "deliver"
+          },
+          "message": "Node 0 : accepts the Accept Response"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+              "node_id": 0,
+              "message_id": 13,
+              "action_type": "deliver"
+          },
+          "message": "Node 0 : receives majority at this point and value 10 has been chosen"
+      },
+      {
+          "route": "/prepare",
+          "input": {
+              "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+              "node_id": 4,
+              "proposal_value": "15"
+          },
+          "message": "Node 4 : proposes value 15, does not know 10 has been accepted. All nodes send the accepted value = 10 back to Node 4"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+              "node_id": 3,
+              "message_id": 17,
+              "action_type": "deliver"
+          },
+          "message": "Node 3 : accepts the Prepare Request"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+              "node_id": 2,
+              "message_id": 16,
+              "action_type": "deliver"
+          },
+          "message": "Node 2 : accepts the Prepare Request"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+              "node_id": 1,
+              "message_id": 15,
+              "action_type": "deliver"
+          },
+          "message": "Node 1 : accepts the Prepare Request"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+              "node_id": 0,
+              "message_id": 14,
+              "action_type": "deliver"
+          },
+          "message": "Node 0 : accepts the Prepare Request"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+              "node_id": 4,
+              "message_id": 18,
+              "action_type": "deliver"
+          },
+          "message": "Node 4 : learns the value 10 and comes out of the propose phase"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+              "node_id": 4,
+              "message_id": 19,
+              "action_type": "deliver"
+          },
+          "message": "Irrelevant action since value 10 learned by Node 4"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+              "node_id": 4,
+              "message_id": 20,
+              "action_type": "deliver"
+          },
+          "message": "Irrelevant action since value 10 learned by Node 4"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+              "node_id": 4,
+              "message_id": 21,
+              "action_type": "deliver"
+          },
+          "message": "Irrelevant action since value 10 learned by Node 4"
+      }
   ] },
-
-  {
-  "id": "s2",
-  "name": "Scenario 2",
-  "description": "Something else",
-  "messages": [
+  
+    {
+    "id": "s2",
+    "name": "Multiple proposers",
+    "description": "With multiple proposers, lower proposal numbers should not be accepted",
+    "messages": [
       {
-        "route": "/prepare",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 0,
-            "proposal_value": "10"
-        },
-        "message": "Node 0 proposes value 10"
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 1,
-            "message_id": 0,
-            "action_type": "deliver"
-        },
-        "message": ""
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 2,
-            "message_id": 1,
-            "action_type": "deliver"
-        },
-        "message": ""
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 3,
-            "message_id": 2,
-            "action_type": "deliver"
-        },
-        "message": ""
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 4,
-            "message_id": 3,
-            "action_type": "drop"
-        },
-        "message": ""
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 0,
-            "message_id": 4,
-            "action_type": "deliver"
-        },
-        "message": ""
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 0,
-            "message_id": 5,
-            "action_type": "deliver"
-        },
-        "message": ""
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 0,
-            "message_id": 6,
-            "action_type": "deliver"
-        },
-        "message": ""
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 4,
-            "message_id": 10,
-            "action_type": "drop"
-        },
-        "message": ""
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 1,
-            "message_id": 7,
-            "action_type": "deliver"
-        },
-        "message": ""
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 2,
-            "message_id": 8,
-            "action_type": "deliver"
-        },
-        "message": ""
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 3,
-            "message_id": 9,
-            "action_type": "deliver"
-        },
-        "message": ""
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 0,
-            "message_id": 11,
-            "action_type": "deliver"
-        },
-        "message": ""
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 0,
-            "message_id": 12,
-            "action_type": "deliver"
-        },
-        "message": ""
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 0,
-            "message_id": 13,
-            "action_type": "deliver"
-        },
-        "message": ""
-    },
-    {
-        "route": "/prepare",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 4,
-            "proposal_value": "15"
-        },
-        "message": ""
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 3,
-            "message_id": 17,
-            "action_type": "deliver"
-        },
-        "message": ""
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 2,
-            "message_id": 16,
-            "action_type": "deliver"
-        },
-        "message": ""
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 1,
-            "message_id": 15,
-            "action_type": "deliver"
-        },
-        "message": ""
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 0,
-            "message_id": 14,
-            "action_type": "deliver"
-        },
-        "message": ""
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 4,
-            "message_id": 18,
-            "action_type": "deliver"
-        },
-        "message": ""
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 4,
-            "message_id": 19,
-            "action_type": "deliver"
-        },
-        "message": ""
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 4,
-            "message_id": 20,
-            "action_type": "deliver"
-        },
-        "message": ""
-    },
-    {
-        "route": "/action",
-        "input": {
-            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
-            "node_id": 4,
-            "message_id": 21,
-            "action_type": "deliver"
-        },
-        "message": "last"
-    }
+          "route": "/init",
+          "input": {
+              "num_nodes" : 5,
+              "user_id": "79372847-1eba-4476-8e06-629ca4747724"
+          }
+      },
+  
+      {
+          "route": "/prepare",
+          "input": {
+              "user_id": "79372847-1eba-4476-8e06-629ca4747724",
+              "node_id": 0,
+              "proposal_value": "100"
+          },
+          "message": "Node 0 : Proposal value 100"
+      },
+      {
+          "route": "/prepare",
+          "input": {
+              "user_id": "79372847-1eba-4476-8e06-629ca4747724",
+              "node_id": 1,
+              "proposal_value": "200"
+          },
+          "message": "Node 1 : Proposal value 200"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "79372847-1eba-4476-8e06-629ca4747724",
+              "node_id": 2,
+              "message_id": 5,
+              "action_type": "deliver"
+          },
+          "message": "ACK Prepare request for node 1"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "79372847-1eba-4476-8e06-629ca4747724",
+              "node_id": 3,
+              "message_id": 6,
+              "action_type": "deliver"
+          },
+          "message": "ACK Prepare request for node 1"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "79372847-1eba-4476-8e06-629ca4747724",
+              "node_id": 4,
+              "message_id": 7,
+              "action_type": "deliver"
+          },
+          "message": "ACK Prepare request for node 1"
+      },
+      {
+          "route": "/prepare",
+          "input": {
+              "user_id": "79372847-1eba-4476-8e06-629ca4747724",
+              "node_id": 0,
+              "proposal_value": "300"
+          },
+          "message": "Node 0 : Propose value 300"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "79372847-1eba-4476-8e06-629ca4747724",
+              "node_id": 2,
+              "message_id": 12,
+              "action_type": "deliver"
+          },
+          "message": "ACK latest Prepare Request fro node 0"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "79372847-1eba-4476-8e06-629ca4747724",
+              "node_id": 3,
+              "message_id": 13,
+              "action_type": "deliver"
+          },
+          "message": "ACK latest Prepare Request fro node 0"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "79372847-1eba-4476-8e06-629ca4747724",
+              "node_id": 4,
+              "message_id": 14,
+              "action_type": "deliver"
+          },
+          "message": "ACK latest Prepare Request fro node 0"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "79372847-1eba-4476-8e06-629ca4747724",
+              "node_id": 0,
+              "message_id": 15,
+              "action_type": "deliver"
+          },
+          "message": "Node 0 : ACK prepare response for node 2"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "79372847-1eba-4476-8e06-629ca4747724",
+              "node_id": 0,
+              "message_id": 16,
+              "action_type": "deliver"
+          },
+          "message": "Node 0 : ACK prepare response for node 3"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "79372847-1eba-4476-8e06-629ca4747724",
+              "node_id": 0,
+              "message_id": 17,
+              "action_type": "deliver"
+          },
+          "message": "Node 0 : ACK prepare response for node 4"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "79372847-1eba-4476-8e06-629ca4747724",
+              "node_id": 2,
+              "message_id": 19,
+              "action_type": "deliver"
+          },
+          "message": "ACK latest Accept request for node 0"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "79372847-1eba-4476-8e06-629ca4747724",
+              "node_id": 3,
+              "message_id": 20,
+              "action_type": "deliver"
+          },
+          "message": "ACK latest Accept request for node 0"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "79372847-1eba-4476-8e06-629ca4747724",
+              "node_id": 4,
+              "message_id": 21,
+              "action_type": "deliver"
+          },
+          "message": "ACK latest Accept request for node 0. After this, if node 0 delivers atleast 2 accept response, it's accepted value should change to 300"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "79372847-1eba-4476-8e06-629ca4747724",
+              "node_id": 0,
+              "message_id": 22,
+              "action_type": "deliver"
+          },
+          "message": "ACK Accept response for node 2"
+      },
+      {
+          "route": "/action",
+          "input": {
+              "user_id": "79372847-1eba-4476-8e06-629ca4747724",
+              "node_id": 0,
+              "message_id": 23,
+              "action_type": "deliver"
+          },
+          "message": "ACK Accept response for node 3. Post this, delivering any of the previous proposal number's #0 and #1 should have no effect on the accepted values for node's 0,2,3,4"
+      }
   ] }
-
-
-]
+  
+  
+  ]
