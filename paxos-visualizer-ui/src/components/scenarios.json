@@ -141,7 +141,7 @@
               "message_id": 12,
               "action_type": "deliver"
           },
-          "message": "Node 0 : accepts the Accept Response"
+          "message": "Node 0 : accepts the Accept Response. It receives majority at this point and value 10 has been chosen"
       },
       {
           "route": "/action",
@@ -151,7 +151,7 @@
               "message_id": 13,
               "action_type": "deliver"
           },
-          "message": "Node 0 : receives majority at this point and value 10 has been chosen"
+          "message": "Node 0 : accepts the Accept Response"
       },
       {
           "route": "/prepare",
@@ -160,7 +160,7 @@
               "node_id": 4,
               "proposal_value": "15"
           },
-          "message": "Node 4 : proposes value 15, does not know 10 has been accepted. All nodes send the accepted value = 10 back to Node 4"
+          "message": "Node 4 : proposes value 15, does not know 10 has been chosen. All nodes send the chosen value = 10 back to Node 4"
       },
       {
           "route": "/action",
