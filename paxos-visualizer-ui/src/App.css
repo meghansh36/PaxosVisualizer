@@ -49,6 +49,13 @@
   height: 34px;
 }
 
+.button-active {
+    font-weight: bold; /* Bold text */
+    transition: all 0.2s ease; /* Smooth transition for effect */
+    border: 2px solid #ffffff; /* White border for emphasis */
+    filter: brightness(130%); /* Slightly brighter background */
+}
+
 .switch input { 
   opacity: 0;
   width: 0;

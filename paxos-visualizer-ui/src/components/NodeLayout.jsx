@@ -23,7 +23,7 @@ const sendActionRequest = async (data, setSystemState, actionHistory, actionPosi
 }
 
 const NodeLayout = ({ id, acceptedValue, acceptedProposal, message_queue, 
-    proposalNumber, proposalValue, setSystemState, minProposal, currentPhase, actionHistory, actionPosition, current_state }) => {
+    proposalNumber, proposalValue, setSystemState, minProposal, currentPhase, actionHistory, actionPosition, current_state, isScenarioMode }) => {
     
     const [paxosDialogVisibility, setPaxosDialogVisibility] = useState(false)
     const inputRef = useRef(null)
@@ -57,17 +57,20 @@ const NodeLayout = ({ id, acceptedValue, acceptedProposal, message_queue,
             currentPhase={currentPhase}
             minProposal={minProposal} 
         />
-        <button onClick={displayInitiatePaxosDialog} className="bg-rose-700 text-white p-1.5 rounded-md text-center">Initiate Paxos</button>
-        {paxosDialogVisibility && <div className="flex justify-center gap-1">
-            <input type="text" placeholder="Propose Value" className="w-6/12 p-1 rounded-sm" ref={inputRef} />
-            <button onClick={handleInitiatePaxos}><img src={Tick} alt="submit-btn" className="w-6" /></button>
-            <button onClick={cancelInitiatePaxos}><img src={Cancel} alt="cancel-btn" className="w-6" /></button>
-        </div>}
-
+        {!isScenarioMode && (
         <div>
-            <button onClick={handleKillNode}  className="mr-1 bg-red-700 text-white p-1.5 rounded-md text-center">Kill Node</button>
-            <button onClick={handleReviveNode} className="bg-green-700 text-white p-1.5 rounded-md text-center z-10 relative">Revive Node</button>
-        </div>
+            <button onClick={displayInitiatePaxosDialog} className="bg-rose-700 text-white p-1.5 rounded-md text-center mb-4">Initiate Paxos</button>
+            {paxosDialogVisibility && <div className="flex justify-center gap-1">
+                <input type="text" placeholder="Propose Value" className="w-6/12 p-1 rounded-sm" ref={inputRef} />
+                <button onClick={handleInitiatePaxos}><img src={Tick} alt="submit-btn" className="w-6" /></button>
+                <button onClick={cancelInitiatePaxos}><img src={Cancel} alt="cancel-btn" className="w-6" /></button>
+            </div>}
+
+            <div>
+                <button onClick={handleKillNode}  className="mr-1 bg-red-700 text-white p-1.5 rounded-md text-center">Kill Node</button>
+                <button onClick={handleReviveNode} className="bg-green-700 text-white p-1.5 rounded-md text-center z-10 relative">Revive Node</button>
+            </div>
+        </div>)}
         <div className="text-lg italic font-semibold text-stone-200">Message Queue</div>
         {message_queue.map(({ message_id, message_type, proposal_number, source_node, value }) => 
                 <Message 
@@ -78,6 +81,7 @@ const NodeLayout = ({ id, acceptedValue, acceptedProposal, message_queue,
                     sourceNode={source_node}
                     value={value}
                     onMessageActionClick={executeMessageAction}
+                    isScenarioMode={isScenarioMode}
                 />)}
         </div>
     );

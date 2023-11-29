@@ -1,0 +1,493 @@
+[
+  {
+  "id": "s1",
+  "name": "Scenario 1",
+  "description": "Learn a value",
+  "messages": [
+      {
+        "route": "/prepare",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 0,
+            "proposal_value": "10"
+        },
+        "message": "first"
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 1,
+            "message_id": 0,
+            "action_type": "deliver"
+        },
+        "message": "second"
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 2,
+            "message_id": 1,
+            "action_type": "deliver"
+        },
+        "message": "third"
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 3,
+            "message_id": 2,
+            "action_type": "deliver"
+        },
+        "message": "4"
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 4,
+            "message_id": 3,
+            "action_type": "drop"
+        },
+        "message": "5"
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 0,
+            "message_id": 4,
+            "action_type": "deliver"
+        },
+        "message": "6"
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 0,
+            "message_id": 5,
+            "action_type": "deliver"
+        },
+        "message": "7"
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 0,
+            "message_id": 6,
+            "action_type": "deliver"
+        },
+        "message": "8"
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 4,
+            "message_id": 10,
+            "action_type": "drop"
+        },
+        "message": "9"
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 1,
+            "message_id": 7,
+            "action_type": "deliver"
+        },
+        "message": "10"
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 2,
+            "message_id": 8,
+            "action_type": "deliver"
+        },
+        "message": "11"
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 3,
+            "message_id": 9,
+            "action_type": "deliver"
+        },
+        "message": "12"
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 0,
+            "message_id": 11,
+            "action_type": "deliver"
+        },
+        "message": ""
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 0,
+            "message_id": 12,
+            "action_type": "deliver"
+        },
+        "message": ""
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 0,
+            "message_id": 13,
+            "action_type": "deliver"
+        },
+        "message": ""
+    },
+    {
+        "route": "/prepare",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 4,
+            "proposal_value": "15"
+        },
+        "message": ""
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 3,
+            "message_id": 17,
+            "action_type": "deliver"
+        },
+        "message": ""
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 2,
+            "message_id": 16,
+            "action_type": "deliver"
+        },
+        "message": ""
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 1,
+            "message_id": 15,
+            "action_type": "deliver"
+        },
+        "message": ""
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 0,
+            "message_id": 14,
+            "action_type": "deliver"
+        },
+        "message": ""
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 4,
+            "message_id": 18,
+            "action_type": "deliver"
+        },
+        "message": ""
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 4,
+            "message_id": 19,
+            "action_type": "deliver"
+        },
+        "message": ""
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 4,
+            "message_id": 20,
+            "action_type": "deliver"
+        },
+        "message": ""
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 4,
+            "message_id": 21,
+            "action_type": "deliver"
+        },
+        "message": ""
+    }
+  ] },
+
+  {
+  "id": "s2",
+  "name": "Scenario 2",
+  "description": "Something else",
+  "messages": [
+      {
+        "route": "/prepare",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 0,
+            "proposal_value": "10"
+        },
+        "message": "Node 0 proposes value 10"
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 1,
+            "message_id": 0,
+            "action_type": "deliver"
+        },
+        "message": ""
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 2,
+            "message_id": 1,
+            "action_type": "deliver"
+        },
+        "message": ""
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 3,
+            "message_id": 2,
+            "action_type": "deliver"
+        },
+        "message": ""
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 4,
+            "message_id": 3,
+            "action_type": "drop"
+        },
+        "message": ""
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 0,
+            "message_id": 4,
+            "action_type": "deliver"
+        },
+        "message": ""
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 0,
+            "message_id": 5,
+            "action_type": "deliver"
+        },
+        "message": ""
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 0,
+            "message_id": 6,
+            "action_type": "deliver"
+        },
+        "message": ""
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 4,
+            "message_id": 10,
+            "action_type": "drop"
+        },
+        "message": ""
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 1,
+            "message_id": 7,
+            "action_type": "deliver"
+        },
+        "message": ""
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 2,
+            "message_id": 8,
+            "action_type": "deliver"
+        },
+        "message": ""
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 3,
+            "message_id": 9,
+            "action_type": "deliver"
+        },
+        "message": ""
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 0,
+            "message_id": 11,
+            "action_type": "deliver"
+        },
+        "message": ""
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 0,
+            "message_id": 12,
+            "action_type": "deliver"
+        },
+        "message": ""
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 0,
+            "message_id": 13,
+            "action_type": "deliver"
+        },
+        "message": ""
+    },
+    {
+        "route": "/prepare",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 4,
+            "proposal_value": "15"
+        },
+        "message": ""
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 3,
+            "message_id": 17,
+            "action_type": "deliver"
+        },
+        "message": ""
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 2,
+            "message_id": 16,
+            "action_type": "deliver"
+        },
+        "message": ""
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 1,
+            "message_id": 15,
+            "action_type": "deliver"
+        },
+        "message": ""
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 0,
+            "message_id": 14,
+            "action_type": "deliver"
+        },
+        "message": ""
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 4,
+            "message_id": 18,
+            "action_type": "deliver"
+        },
+        "message": ""
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 4,
+            "message_id": 19,
+            "action_type": "deliver"
+        },
+        "message": ""
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 4,
+            "message_id": 20,
+            "action_type": "deliver"
+        },
+        "message": ""
+    },
+    {
+        "route": "/action",
+        "input": {
+            "user_id": "07f1ce36-fe42-439b-80ef-2c9b84c6856f",
+            "node_id": 4,
+            "message_id": 21,
+            "action_type": "deliver"
+        },
+        "message": "last"
+    }
+  ] }
+
+
+]

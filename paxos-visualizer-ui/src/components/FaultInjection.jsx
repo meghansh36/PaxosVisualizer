@@ -18,7 +18,7 @@ const FaultInjection = ({ onInjectFaults }) => {
  
     const [faultValue, setFaultValue] = useState(FAULT_INJECTION_TYPES.PREPARE_CHECK_STRING)
 
-    const onDropwDownBtnClick = faultType => {
+    const onDropDownBtnClick = faultType => {
         setDropDownVisibility({ ...dropDownVisibility, [faultType]: dropDownVisibility[faultType] === "hidden" ? "block" : "hidden" })
     }
 
@@ -29,7 +29,7 @@ const FaultInjection = ({ onInjectFaults }) => {
  
     const renderFaultInjectionOptions = () => Object.values(FAULT_INJECTION_TYPES).map(faultType => {
         let faultLabel = ''
-        if (faultType == FAULT_INJECTION_TYPES.PREPARE_CHECK_STRING || faultType ==  FAULT_INJECTION_TYPES.ACCEPT_CHECK_STRING) {
+        if (faultType === FAULT_INJECTION_TYPES.PREPARE_CHECK_STRING || faultType === FAULT_INJECTION_TYPES.ACCEPT_CHECK_STRING) {
             const options = Object.values(OPERATORS).map(operatorName => 
                 <li key={operatorName}>
                     <div htmlFor={operatorName} className="flex items-center cursor-pointer" onClick={(e) => onMenuClick(e, operatorName, faultType)}>
@@ -40,7 +40,7 @@ const FaultInjection = ({ onInjectFaults }) => {
             )
             faultLabel = <div className="flex gap-2 items-center">
                 Proposal Number(n) 
-                <button className="relative bg-white rounded text-slate-900" onMouseEnter={() => onDropwDownBtnClick(faultType)} onMouseLeave={() => onDropwDownBtnClick(faultType)}>
+                <button className="relative bg-white rounded text-slate-900" onMouseEnter={() => onDropDownBtnClick(faultType)} onMouseLeave={() => onDropDownBtnClick(faultType)}>
                     <div className="flex items-center p-0.5">{dropdownValue[faultType]}      
                         <svg className="w-2.5 h-2.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4"/>
@@ -55,11 +55,11 @@ const FaultInjection = ({ onInjectFaults }) => {
                 minProposal
             </div>
         }
-        else if (faultType == FAULT_INJECTION_TYPES.ASSIGN_ACCEPT_PROPOSAL) {
+        else if (faultType === FAULT_INJECTION_TYPES.ASSIGN_ACCEPT_PROPOSAL) {
             faultLabel =  <div className="flex p-0.5">Do not execute: Accepted Proposal in Accept Phase = Proposal Number(n)</div>
-        } else if (faultType == FAULT_INJECTION_TYPES.ASSIGN_MINPROPOSAL) {
-            faultLabel =  <div className="flex p-0.5">Do not execute: Accedpted Proposal in Prepare Phase = Proposal Number(n)</div>
-        } else if (faultType == FAULT_INJECTION_TYPES.MAJORITY) {
+        } else if (faultType === FAULT_INJECTION_TYPES.ASSIGN_MINPROPOSAL) {
+            faultLabel =  <div className="flex p-0.5">Do not execute: Accepted Proposal in Prepare Phase = Proposal Number(n)</div>
+        } else if (faultType === FAULT_INJECTION_TYPES.MAJORITY) {
             faultLabel = <div className="flex">Change Majority Number: <input placeholder='Majority Number' type="number" min="1" max="5" ref={majorityNumber} className="ml-2 text-black w-32 p-0.5" defaultValue={3}></input></div>
         }
 
@@ -87,7 +87,7 @@ const FaultInjection = ({ onInjectFaults }) => {
 
     return(
         <div className="flex flex-row justify-center items-center gap-8 mb-8">
-            <img src={PaxosAlgoImage} alt="algo-reference-image" className="w-5/12" />
+            <img src={PaxosAlgoImage} alt="algo-reference" className="w-5/12" />
             <div className="flex flex-col gap-4">
                 <div className="text-stone-200 font-semibold">Select one of the faults below, to see how the algorithm gets affected: </div>
                 <div className="flex flex-col gap-2">
