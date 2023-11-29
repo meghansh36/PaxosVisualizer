@@ -159,7 +159,8 @@ class PaxosRunner:
         source_node = self.nodes[message.source_node]
 
         # Send the prepare response to proposer
-        source_node.message_queue.append(prepare_response_message)
+        if source_node.current_state == NODE_STATE.ALIVE:
+            source_node.message_queue.append(prepare_response_message)
         # self.nodes[message.source_node] = source_node
         # Remove message from queue
         # node = self.delete_message_by_id(node, message.message_id)
@@ -222,7 +223,8 @@ class PaxosRunner:
                                      message_id=self.generate_message_id(),
                                      proposal_number=node.promised_proposal, value=node.accepted_value)
 
-        self.nodes[message.source_node].message_queue.append(accept_res_message) 
+        if self.nodes[message.source_node].current_state == NODE_STATE.ALIVE:
+            self.nodes[message.source_node].message_queue.append(accept_res_message) 
         return node
 
     def handle_accept_response(self, message: Message, node: Node):

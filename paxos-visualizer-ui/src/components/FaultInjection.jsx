@@ -58,7 +58,7 @@ const FaultInjection = ({ onInjectFaults }) => {
         else if (faultType === FAULT_INJECTION_TYPES.ASSIGN_ACCEPT_PROPOSAL) {
             faultLabel =  <div className="flex p-0.5">Do not execute: Accepted Proposal in Accept Phase = Proposal Number(n)</div>
         } else if (faultType === FAULT_INJECTION_TYPES.ASSIGN_MINPROPOSAL) {
-            faultLabel =  <div className="flex p-0.5">Do not execute: Accepted Proposal in Prepare Phase = Proposal Number(n)</div>
+            faultLabel =  <div className="flex p-0.5">Do not execute: Min Proposal in Accept Phase = Proposal Number(n)</div>
         } else if (faultType === FAULT_INJECTION_TYPES.MAJORITY) {
             faultLabel = <div className="flex">Change Majority Number: <input placeholder='Majority Number' type="number" min="1" max="5" ref={majorityNumber} className="ml-2 text-black w-32 p-0.5" defaultValue={3}></input></div>
         }
