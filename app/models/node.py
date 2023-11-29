@@ -16,6 +16,8 @@ class Node(BaseModel):
     accept_response_count: int
     current_phase: NODE_PHASE
     current_state: NODE_STATE
+    max_proposal_num_seen : int
+    max_accepted_value_seen: Optional[str]
 
     message_queue: list[Message] = []
     delivered_messages: list[Message] = []

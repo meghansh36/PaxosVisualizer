@@ -26,6 +26,7 @@ const executeFaultInjection = async (setSystemState, actionHistory, actionPositi
 }
 
 const executeUndoAction = async (setSystemState, actionHistory, actionPosition) => {
+    console.log(actionHistory)
     const returnedSystemStates = [await resetSystemState()];
     for(let i = 0; i < actionPosition.current; i++) {
       const currentAction = actionHistory.current[i]

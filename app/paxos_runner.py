@@ -41,7 +41,7 @@ class PaxosRunner:
     def init_node(node_id: int):
         return Node(id=node_id, proposal_number=-1, proposal_value=None, promised_proposal=-1, accepted_value=None,
                     prep_response_count=0, accepted_proposal=-1, accept_response_count=0, current_phase=NODE_PHASE.NONE,
-                    current_state=NODE_STATE.ALIVE)
+                    current_state=NODE_STATE.ALIVE, max_proposal_num_seen = -1, max_accepted_value_seen = None)
 
     def generate_message_id(self):
         self.message_id += 1
@@ -56,8 +56,8 @@ class PaxosRunner:
         # Change node state
         node = self.nodes[node_id]
 
-        if node.current_phase != NODE_PHASE.NONE:
-            return
+        # if node.current_phase != NODE_PHASE.NONE:
+        #     return
 
         node.proposal_number = self.proposal_number
         node.promised_proposal = self.proposal_number
@@ -65,6 +65,10 @@ class PaxosRunner:
         node.current_phase = NODE_PHASE.PREPARE_PHASE
         # Update proposal accept count to 1 (self)
         node.prep_response_count = 1
+
+        if node.accepted_proposal != -1 and node.accepted_value is not None:
+            node.max_proposal_num_seen = node.accepted_proposal
+            node.max_accepted_value_seen = node.accepted_value
 
         # Send prepare message to all nodes
         for target_node in range(self.num_nodes):
@@ -168,27 +172,39 @@ class PaxosRunner:
 
             # If we receive a previously accepted value from the node
             if message.proposal_number != node.proposal_number and message.value is not None:
-                print(f"Node {node.id} is no longer in proposal phase. Updating accepted value")
-                node.accepted_value = message.value
-                node.accepted_proposal = message.proposal_number
-                node.current_phase = NODE_PHASE.NONE
+                
+                if message.proposal_number > node.max_proposal_num_seen:
+                    node.max_proposal_num_seen = message.proposal_number
+                    node.max_accepted_value_seen = message.value
+                
+            #     print(f"Node {node.id} is no longer in proposal phase. Updating accepted value")
+            #     node.accepted_value = message.value
+            #     node.accepted_proposal = message.proposal_number
+            #     node.current_phase = NODE_PHASE.NONE
 
-            elif node.prep_response_count == self.majority:
+            if node.prep_response_count == self.majority:
                 print(f'Node {node.id} received majority.')
-                node.current_phase = NODE_PHASE.ACCEPT_PHASE
-                # Send accept message to all the other nodes
-                node.accept_response_count = 1
 
-                # Accept your own accept request
-                node.accepted_value = node.proposal_value
-                node.accepted_proposal = node.proposal_number
+                if node.max_proposal_num_seen > -1 and node.max_accepted_value_seen != None:
+                    node.accepted_value = node.max_accepted_value_seen
+                    node.accepted_proposal = node.max_proposal_num_seen
+                    node.current_phase = NODE_PHASE.NONE
 
-                for target_node in range(self.num_nodes):
-                    if target_node != node.id and self.nodes[target_node].current_state == NODE_STATE.ALIVE:
-                        accept_req_message = Message(message_type=MESSAGE_TYPE.ACCEPT_REQUEST, source_node=node.id,
-                                                     message_id=self.generate_message_id(),
-                                                     proposal_number=node.proposal_number, value=node.proposal_value)
-                        self.nodes[target_node].message_queue.append(accept_req_message)
+                else:
+                    node.current_phase = NODE_PHASE.ACCEPT_PHASE
+                    # Send accept message to all the other nodes
+                    node.accept_response_count = 1
+
+                    # Accept your own accept request
+                    node.accepted_value = node.proposal_value
+                    node.accepted_proposal = node.proposal_number
+
+                    for target_node in range(self.num_nodes):
+                        if target_node != node.id and self.nodes[target_node].current_state == NODE_STATE.ALIVE:
+                            accept_req_message = Message(message_type=MESSAGE_TYPE.ACCEPT_REQUEST, source_node=node.id,
+                                                        message_id=self.generate_message_id(),
+                                                        proposal_number=node.proposal_number, value=node.proposal_value)
+                            self.nodes[target_node].message_queue.append(accept_req_message)
 
         return node
 
