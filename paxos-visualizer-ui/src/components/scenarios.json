@@ -71,7 +71,7 @@
               "message_id": 5,
               "action_type": "deliver"
           },
-          "message": "Node 0 : accepts Prepare Response"
+          "message": "Node 0 : accepts Prepare Response. It receives majority at this point & sends the Accept Requests"
       },
       {
           "route": "/action",
@@ -81,7 +81,7 @@
               "message_id": 6,
               "action_type": "deliver"
           },
-          "message": "Node 0 : receives majority at this point & sends the Accept Requests"
+          "message": "Node 0 : accepts Prepare Response"
       },
       {
           "route": "/action",
